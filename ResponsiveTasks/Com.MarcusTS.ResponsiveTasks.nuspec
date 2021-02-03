@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Com.MarcusTS.ResponsiveTasks</id>
+    <version>1.0.0</version>
+    <title>Responsive Tasks</title>
+    <authors>Stephen Marcus</authors>
+    <owners>Marcus Technical Services, Inc.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+     <license type="file">license.txt</license>
+     <description>
+        TPL compatible replacement for events and global messages.
+    </description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2021 Marcus Technical Services, Inc. (https://www.marcusts.com)</copyright>
+    <tags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks</tags>
+  </metadata>
+</package>

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Com.MarcusTS.ResponsiveTasks</AssemblyName>
+    <Authors>Stephen Marcus</Authors>
+    <Company>Marcus Technical Services, Inc.</Company>
+    <Product>Responsive Tasks Library</Product>
+    <Copyright>Copyright @2021 Marcus Technical Services, Inc.</Copyright>
+    <Description>TPL compatible replacement for events and global messages</Description>
+    <PackageTags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks</PackageTags>
+    <RootNamespace>Com.MarcusTS.ResponsiveTasks</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>false</Optimize>
+    <DocumentationFile>m:\MyDocs\Dev\MtsShared\ResponsiveTasks\ResponsiveTasks\Com.MarcusTS.ResponsiveTasks.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.475" />
+    <PackageReference Include="Com.MarcusTS.SharedUtils" Version="1.0.17" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+  </ItemGroup>
+
+</Project>

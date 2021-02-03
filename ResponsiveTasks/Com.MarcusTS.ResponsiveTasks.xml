@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Com.MarcusTS.ResponsiveTasks</name>
+    </assembly>
+    <members>
+        <member name="M:ResponsiveTasks.DialogFactory.ShowDecisionToast(System.String,System.Action,System.Boolean)">
+            <summary>
+               An important toast with an action that takes the user somewhere in response.
+            </summary>
+            <param name="toastStr">The toast message.</param>
+            <param name="useTimeout">
+               Whether to remove the toast after a timeout.  Not normal for this scenario: defaults to
+               *false*.
+            </param>
+            <param name="action">The action to take once the user taps the toast.  *Required*.</param>
+        </member>
+        <member name="M:ResponsiveTasks.DialogFactory.ShowErrorToast(System.String,System.String,System.Boolean,System.Action)">
+            <summary>
+               An error toast to notify the user that something went wrong.
+            </summary>
+            <param name="toastStr">The toast message.</param>
+            <param name="actionText">The button text</param>
+            <param name="useTimeout">
+               Whether to remove the toast after a timeout.  Not normal for this scenario: defaults to
+               *false*.
+            </param>
+            <param name="action">The action to take once the user taps the toast.  Optional.</param>
+        </member>
+        <member name="M:ResponsiveTasks.DialogFactory.ShowExceptionToast(System.String,System.Exception,System.Boolean,System.Action)">
+            <summary>
+               An error toast to notify the user that an error has occurred.
+            </summary>
+            <param name="toastPrefix">
+               The first part of the toast message.
+               The second part will be added by this method (see below).
+            </param>
+            <param name="ex">The exception.</param>
+            <param name="useTimeout">
+               Whether to remove the toast after a timeout.  Not normal for this scenario: defaults to
+               *false*.
+            </param>
+            <param name="action">The action to take once the user taps the toast.  Optional.</param>
+        </member>
+        <member name="M:ResponsiveTasks.DialogFactory.ShowInfoToast(System.String,System.String,System.Boolean,System.Action)">
+            <summary>
+               A passive toast in a benign color to indicate information only;
+               does not normally trigger an action, but can.
+            </summary>
+            <param name="toastStr">The toast message.</param>
+            <param name="actionText"></param>
+            <param name="useTimeout">Whether to remove the toast after a timeout.  Defaults to *true*.</param>
+            <param name="action">The action to take if the user taps the toast.</param>
+        </member>
+        <member name="M:ResponsiveTasks.DialogFactory.ShowToastInternal(System.String,System.String,Xamarin.Forms.Color,Xamarin.Forms.Color,Xamarin.Forms.Color,System.Boolean,System.Int32,System.Action)">
+            <summary>
+               Can call directly.
+            </summary>
+            <param name="toastStr"></param>
+            <param name="actionText"></param>
+            <param name="backgroundColor"></param>
+            <param name="messageTextColor"></param>
+            <param name="actionTextColor"></param>
+            <param name="useTimeout"></param>
+            <param name="toastDissolveSeconds"></param>
+            <param name="action"></param>
+        </member>
+        <member name="T:ResponsiveTasks.TaskHelper">
+            <summary>
+               Class TaskHelper.
+            </summary>
+        </member>
+        <member name="M:ResponsiveTasks.TaskHelper.RunParallel(System.Threading.Tasks.Task,System.Threading.Tasks.Task,System.Action)">
+            <summary>
+               Runs the parallel.
+            </summary>
+            <param name="task">The task.</param>
+            <param name="taskCallback">The task callback.</param>
+            <param name="actionCallback">The action callback.</param>
+        </member>
+        <member name="M:ResponsiveTasks.TaskHelper.WithoutChangingContext(System.Threading.Tasks.Task)">
+            <summary>
+            Runs a void without changing the context (configure await is false).
+            </summary>
+            <param name="task">The task.</param>
+            <returns>Task.</returns>
+        </member>
+    </members>
+</doc>
