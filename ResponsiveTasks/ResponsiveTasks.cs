@@ -171,6 +171,8 @@ namespace ResponsiveTasks
       public ResponsiveTaskParams Params { get; set; }
       public ParamsErrorLevels ParamsErrorLevel { get; set; }
       public HowToRun RunHow { get; set; }
+      
+      // Reconsider
       private bool AllRanSuccessfully => true; // this.All(t => t.TaskToRun(Params).IsCompletedSuccessfully);
 
       public void AddIfNotAlreadyThere(object host, ResponsiveTaskBroadcastDelegate taskDelegate)
