@@ -189,3 +189,6 @@ public class MyGoodConsumer
  * Can get parameters directly through array referencing *(unsafe)*
  * Upon request to handle a hosted task, if that subscription already exists, it is ignored - NO duplicate subscriptions as with events!
  * Very well-behaved storage model; subscribed tasks do not mis-behave like subscribed events do on disposal of the listening class.
+
+## NuGet Link
+https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks/#
