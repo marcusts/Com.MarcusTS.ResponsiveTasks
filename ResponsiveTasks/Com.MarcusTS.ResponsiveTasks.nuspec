@@ -13,6 +13,6 @@
     </description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2021 Marcus Technical Services, Inc. (https://www.marcusts.com)</copyright>
-    <tags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks</tags>
+    <tags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks tpl tpl-fixes await-async await-async fixes</tags>
   </metadata>
 </package>
