@@ -1,6 +1,4 @@
-﻿https://demo.hedgedoc.org/s/sp4x1TFrP
-
-# Fixing TPL, Part 1 of N: Responsive Tasks
+﻿# Fixing TPL, Part 1 of N: Responsive Tasks
 
 When Microsoft announced the Task Parallel Library, C# programmers everywhere rejoiced.  Simplified threads?  Error handling within the library itself?  What could possibly go wrong?
 
@@ -12,7 +10,7 @@ A task requires a **root** in order to be properly awaited.  For instance:
 // An awaitable task
 public Task YouCanAwaitMe() { }
 
-// A root where you can await a task
+// A root where you an await a task
 public async Task IWillAwait()
 {
 await YouCanAwaitMe()
@@ -71,7 +69,7 @@ public SomeConstructor()
    BindingContextChanged += async (sender, args) => { await SomeMethod(); };
 }
 ```
-Please face facts: this event was raised as follows:
+Let's face facts: this event is raised as follows:
 ```
 BindingContextChanged?.Invoke(this, args);
 ```
@@ -181,13 +179,13 @@ public class MyGoodConsumer
 
 #### On Creating Tasks
 * Can assign any parameter count; on firing the task, the provided parameters must match that count or an error will result.
-* Can run the tasks in parallel or consecutively (default).
-* Can respond to errors as the tasks run or not (default).
-* Can set the error level (debug output vs. modal dialog, etc.)
+* Can run the tasks in parallel or consecutively *(default)*
+* Can respond to errors as the tasks run or not *(default)*
+* Can set the error level *(debug output vs. modal dialog, etc.)*
 * Can provide a custom error handler
-
+* 
  #### On Handling Tasks
- * Can get the parameters with type safety (recommended)
- * Can get parameters directly through array referencing (unsafe)
+ * Can get the parameters with type safety *(recommended)*
+ * Can get parameters directly through array referencing *(unsafe)*
  * Upon request to handle a hosted task, if that subscription already exists, it is ignored - NO duplicate subscriptions as with events!
- * Very well-behaved storage model; subscribed tasks do not mis-behaved like subscribed events do on disposal of the listening class.
+ * Very well-behaved storage model; subscribed tasks do not mis-behave like subscribed events do on disposal of the listening class.
