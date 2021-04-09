@@ -1,7 +1,9 @@
 
 # Fixing TPL Using Responsive Tasks:
 
-**IMPORTANT**: See the complete [Responsive Tasks Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo) which is referenced below.
+**IMPORTANT**
+* See the complete [Responsive Tasks Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo) which is referenced below.
+* This library is also available on [NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks).
 
 ## TPL: The Promise
 
