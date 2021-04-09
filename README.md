@@ -4,7 +4,9 @@
 >**IMPORTANT**
 >* See the complete [Responsive Tasks Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo) which is referenced below.
 >* This library is also available on [NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks).
-
+###
+###
+###
 ## TPL: The Promise
 
 When Microsoft announced the Task Parallel Library, C# programmers everywhere rejoiced.  Simplified threads?  Error handling within the library itself?  What could possibly go wrong?
