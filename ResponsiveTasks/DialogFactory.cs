@@ -24,7 +24,7 @@
 // SOFTWARE.
 // *********************************************************************************
 
-namespace ResponsiveTasks
+namespace Com.MarcusTS.ResponsiveTasks
 {
    using System;
    using Acr.UserDialogs;

@@ -4,7 +4,7 @@
         <name>Com.MarcusTS.ResponsiveTasks</name>
     </assembly>
     <members>
-        <member name="M:ResponsiveTasks.DialogFactory.ShowDecisionToast(System.String,System.Action,System.Boolean)">
+        <member name="M:Com.MarcusTS.ResponsiveTasks.DialogFactory.ShowDecisionToast(System.String,System.Action,System.Boolean)">
             <summary>
                An important toast with an action that takes the user somewhere in response.
             </summary>
@@ -15,7 +15,7 @@
             </param>
             <param name="action">The action to take once the user taps the toast.  *Required*.</param>
         </member>
-        <member name="M:ResponsiveTasks.DialogFactory.ShowErrorToast(System.String,System.String,System.Boolean,System.Action)">
+        <member name="M:Com.MarcusTS.ResponsiveTasks.DialogFactory.ShowErrorToast(System.String,System.String,System.Boolean,System.Action)">
             <summary>
                An error toast to notify the user that something went wrong.
             </summary>
@@ -27,7 +27,7 @@
             </param>
             <param name="action">The action to take once the user taps the toast.  Optional.</param>
         </member>
-        <member name="M:ResponsiveTasks.DialogFactory.ShowExceptionToast(System.String,System.Exception,System.Boolean,System.Action)">
+        <member name="M:Com.MarcusTS.ResponsiveTasks.DialogFactory.ShowExceptionToast(System.String,System.Exception,System.Boolean,System.Action)">
             <summary>
                An error toast to notify the user that an error has occurred.
             </summary>
@@ -42,7 +42,7 @@
             </param>
             <param name="action">The action to take once the user taps the toast.  Optional.</param>
         </member>
-        <member name="M:ResponsiveTasks.DialogFactory.ShowInfoToast(System.String,System.String,System.Boolean,System.Action)">
+        <member name="M:Com.MarcusTS.ResponsiveTasks.DialogFactory.ShowInfoToast(System.String,System.String,System.Boolean,System.Action)">
             <summary>
                A passive toast in a benign color to indicate information only;
                does not normally trigger an action, but can.
@@ -52,7 +52,7 @@
             <param name="useTimeout">Whether to remove the toast after a timeout.  Defaults to *true*.</param>
             <param name="action">The action to take if the user taps the toast.</param>
         </member>
-        <member name="M:ResponsiveTasks.DialogFactory.ShowToastInternal(System.String,System.String,Xamarin.Forms.Color,Xamarin.Forms.Color,Xamarin.Forms.Color,System.Boolean,System.Int32,System.Action)">
+        <member name="M:Com.MarcusTS.ResponsiveTasks.DialogFactory.ShowToastInternal(System.String,System.String,Xamarin.Forms.Color,Xamarin.Forms.Color,Xamarin.Forms.Color,System.Boolean,System.Int32,System.Action)">
             <summary>
                Can call directly.
             </summary>
@@ -65,25 +65,20 @@
             <param name="toastDissolveSeconds"></param>
             <param name="action"></param>
         </member>
-        <member name="T:ResponsiveTasks.TaskHelper">
+        <member name="T:Com.MarcusTS.ResponsiveTasks.ResponsiveTaskHelper">
             <summary>
                Class TaskHelper.
             </summary>
         </member>
-        <member name="M:ResponsiveTasks.TaskHelper.RunParallel(System.Threading.Tasks.Task,System.Threading.Tasks.Task,System.Action)">
-            <summary>
-               Runs the parallel.
-            </summary>
-            <param name="task">The task.</param>
-            <param name="taskCallback">The task callback.</param>
-            <param name="actionCallback">The action callback.</param>
+        <member name="P:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.TimeoutMilliseconds">
+            <remarks>
+            Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
+            </remarks>
         </member>
-        <member name="M:ResponsiveTasks.TaskHelper.WithoutChangingContext(System.Threading.Tasks.Task)">
-            <summary>
-            Runs a void without changing the context (configure await is false).
-            </summary>
-            <param name="task">The task.</param>
-            <returns>Task.</returns>
+        <member name="P:Com.MarcusTS.ResponsiveTasks.ResponsiveTasks.TimeoutMilliseconds">
+            <remarks>
+               Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
+            </remarks>
         </member>
     </members>
 </doc>
