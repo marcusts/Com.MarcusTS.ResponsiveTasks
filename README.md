@@ -1,7 +1,10 @@
 
 # Fixing TPL Using Responsive Tasks:
 
-**IMPORTANT**: See the complete [Responsive Tasks Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo) which is referenced below.
+>**IMPORTANT**
+>* See the complete [Responsive Tasks Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo) which is referenced below.
+>* This library is also available on [NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks).
+
 
 ## TPL: The Promise
 
@@ -125,6 +128,6 @@ Here is the output in the ***final*** ResponsiveTasksDemo. We now run tasks from
 
 Each page describes a problem and its Responsive solution:
 
-## [Part 1 of N: Pages, Views & View Models](ResponsiveTasksDemo_1.md)
-## [Part 2 of N: Events & Messaging](ResponsiveTasksDemo_2.md)
-## [Part 3 of N: Technical Guide](ResponsiveTasksDemo_3.md)
+## [Part 1 of N: Pages, Views & View Models](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_1.md)
+## [Part 2 of N: Events & Messaging](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_2.md)
+## [Part 3 of N: Technical Guide](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_3.md)
