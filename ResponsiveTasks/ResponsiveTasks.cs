@@ -104,7 +104,7 @@ namespace Com.MarcusTS.ResponsiveTasks
 
       Task<bool> AwaitAllTasksConsecutivelyStopOnFirstFailure(params object[] paramValues);
 
-      Task<bool> AwaitAllTasksUsingDefaults(params object[] paramValues);
+      Task<bool> RunAllTasksUsingDefaults(params object[] paramValues);
 
       void RemoveIfThere(object host, ResponsiveTaskBroadcastDelegate task);
 
@@ -244,7 +244,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          return AwaitAllTasksConsecutively(true);
       }
 
-      public async Task<bool> AwaitAllTasksUsingDefaults(params object[] paramValues)
+      public async Task<bool> RunAllTasksUsingDefaults(params object[] paramValues)
       {
          AssignParamValues(paramValues);
 

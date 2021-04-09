@@ -21,7 +21,7 @@ public Task YouCanAwaitMe() { }
 // A root where you an await a task
 public async Task IWillAwait()
 {
-   await YouCanAwaitMe()
+   await YouCanAwaitMe().WithoutChangingContext();
 }
 ```
 
@@ -47,7 +47,7 @@ public class FalselyRootedView : ContentView
       base.OnBindingContextChanged();
       
       // Mega hack -- called from a void method (illegal!)
-      await StartUpViewModel().ConfigureAwait(false);
+      await StartUpViewModel().WithoutChangingContext();
    }
    
    public virtual Task StartUpViewModel()
@@ -65,7 +65,7 @@ public class FalseConsumer : FalselyRootedView
       //    without our control; it was never properly awaited.  Anything relying on it will 
       //    accelerate into a race condition; variables will not be set on time; nothing can 
       //    be relied upon in a predictable order.
-      await SomeOtherTask();
+      await SomeOtherTask().WithoutChangingContext();
    }
 }
 ```
@@ -92,17 +92,17 @@ This is a digested Debug output from the ResponsiveAppDemo when I originally cre
 
 ## The Most Obvious Solution is Also the Worst
 
-So how do we achieve atomic comploleteness for each Task with no overlaps?  How about this:
+So how do we achieve atomic completeness for each Task with no overlaps?  How about this:
 
 ``` C#
 public async void IncorrectlyRaiseATaskWithABlockingCall()
 {
-   await SomeTask.Wait();
+   await SomeTask.Wait().WithoutChangingContext();
 }
 
 ```
 
-Ironically, this solves concurrency issues because it only proceeds ***after*** completing a task.  But that comes at an emormous cost: ***100% of the UI thread***. The user immediately senses their keyboard has died. **Wait** is a rusty razor blade in the bottom of your tool-belt.
+Ironically, this solves concurrency issues because it only proceeds ***after*** completing a task.  But that comes at an enormous cost: ***100% of the UI thread***. The user immediately senses their keyboard has died. **Wait** is a rusty razor blade in the bottom of your tool-belt.
 
 ## The Right Solution: Responsive Tasks
 
