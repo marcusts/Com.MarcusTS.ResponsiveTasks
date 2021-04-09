@@ -78,15 +78,15 @@ This is a digested Debug output from the ResponsiveAppDemo when I originally cre
 
 | Location                      | Task Type                | First/Last |
 | :---                          | :---                     | :---       |
-| Views.Subviews.DashboardView  | RunPostConstructionTasks | FIRST	    |
-| ViewModels.DashboardViewModel | RunPostConstructionTasks | FIRST	    |
-| ViewModels.DashboardViewModel | RunPostBindingTasks      | FIRST	    |
-| Views.Subviews.DashboardView  | RunPostBindingTasks      | FIRST	    |
+| Views.Subviews.DashboardView  | RunPostConstructionTasks | FIRST	|
+| ViewModels.DashboardViewModel | RunPostConstructionTasks | FIRST	|
+| ViewModels.DashboardViewModel | RunPostBindingTasks      | FIRST	|
+| Views.Subviews.DashboardView  | RunPostBindingTasks      | FIRST	|
 |-------------------------------|--------------------------|------------|
-| Views.Subviews.DashboardView  | RunPostConstructionTasks | LAST	    |
-| ViewModels.DashboardViewModel | RunPostConstructionTasks | LAST	    | 
-| ViewModels.DashboardViewModel | RunBindingTasks          | LAST	    | 
-| Views.Subviews.DashboardView  | RunBindingTasks          | LAST	    |
+| Views.Subviews.DashboardView  | RunPostConstructionTasks | LAST	|
+| ViewModels.DashboardViewModel | RunPostConstructionTasks | LAST	| 
+| ViewModels.DashboardViewModel | RunPostBindingTasks      | LAST	| 
+| Views.Subviews.DashboardView  | RunPostBindingTasks      | LAST	|
 
 *Everything runs immediately and on top of each other.  Nothing ever forms properly before something else piles on top and tries to rely on some imagined statefulness. This is what causes programs to hang and to crash.*
 
@@ -108,21 +108,21 @@ Ironically, this solves concurrency issues because it only proceeds ***after*** 
 
 The Responsive Tasks library handles all of the dilemmas mentioned here using a thread-safe "wait" strategy, plus base classes that support Tasks everywhere.  You can easily copy the code samples into your own base views or view models, so this approach is not dogmatic.
 
-Here is the output in the ***final*** ResponsiveTasksDemo. We now run tasks from safer locations *(see the Task Type)*.  Everything is more orderly now.  Every process is stateful and predictable:
+Here is the output in the ***final*** ResponsiveTasksDemo. Everything is orderly now.  Every process is stateful and predictable:
 
 | Location                      | Task Type                | First/Last |
 | :---                          | :---                     | :---       |
-| Views.Subviews.DashboardView  | RunPostConstructionTasks | FIRST	    |
-| Views.Subviews.DashboardView  | RunPostConstructionTasks | LAST	    |
+| Views.Subviews.DashboardView  | RunPostConstructionTasks | FIRST	|
+| Views.Subviews.DashboardView  | RunPostConstructionTasks | LAST	|
 |-------------------------------|--------------------------|------------|
-| ViewModels.DashboardViewModel | RunPostConstructionTasks | FIRST	    |
-| ViewModels.DashboardViewModel | RunPostConstructionTasks | LAST	    | 
+| ViewModels.DashboardViewModel | RunPostConstructionTasks | FIRST	|
+| ViewModels.DashboardViewModel | RunPostConstructionTasks | LAST	| 
 |-------------------------------|--------------------------|------------|
-| ViewModels.DashboardViewModel | RunPostBindingTasks      | FIRST	    |
-| ViewModels.DashboardViewModel | RunBindingTasks          | LAST	    | 
+| ViewModels.DashboardViewModel | RunPostBindingTasks      | FIRST	|
+| ViewModels.DashboardViewModel | RunPostBindingTasks      | LAST	| 
 |-------------------------------|--------------------------|------------|
-| Views.Subviews.DashboardView  | RunPostBindingTasks      | FIRST	    |
-| Views.Subviews.DashboardView  | RunBindingTasks          | LAST	    |
+| Views.Subviews.DashboardView  | RunPostBindingTasks      | FIRST	|
+| Views.Subviews.DashboardView  | RunPostBindingTasks      | LAST	|
 
 ## Index
 
