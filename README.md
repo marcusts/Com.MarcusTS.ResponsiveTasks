@@ -131,3 +131,4 @@ Each page describes a problem and its Responsive solution:
 ## [Part 1 of N: Pages, Views & View Models](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_1.md)
 ## [Part 2 of N: Events & Messaging](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_2.md)
 ## [Part 3 of N: Technical Guide](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_3.md)
+## [Part 4 of N: Button Pressed: Closing the Final TPL Gaps](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_4.md)
