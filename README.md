@@ -14,7 +14,7 @@ Just about everything, as it turns out.
 
 A task requires a **root** in order to be properly awaited.  For instance:
 
-<pre class="prettyprint lang-C#" data-start-line="1" data-visibility="visible" data-highlight="" data-caption="">
+<pre lang='cs'>
 // An awaitable task
 public Task YouCanAwaitMe() { }
 
@@ -39,7 +39,7 @@ Unfortunately, a Xamarin app doesn't have any valid roots.  For instance, ***not
 
 Any location that fails to provide a Task signature is a *false root*. This causes unsafe results:
 
-<pre class="prettyprint lang-C#" data-start-line="1" data-visibility="visible" data-highlight="" data-caption="">
+<pre lang='cs'> 
 public class FalselyRootedView : ContentView
 {
    protected override async void OnBindingContextChanged()
@@ -94,7 +94,7 @@ This is a digested Debug output from the ResponsiveAppDemo when I originally cre
 
 So how do we achieve atomic completeness for each Task with no overlaps?  How about this:
 
-<pre class="prettyprint lang-C#" data-start-line="1" data-visibility="visible" data-highlight="" data-caption="">
+<pre lang='cs'>
 public async void IncorrectlyRaiseATaskWithABlockingCall()
 {
    await SomeTask.Wait().WithoutChangingContext();
