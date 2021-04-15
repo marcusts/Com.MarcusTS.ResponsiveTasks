@@ -14,7 +14,7 @@ Just about everything, as it turns out.
 
 A task requires a **root** in order to be properly awaited.  For instance:
 
-``` C#
+<pre class="prettyprint lang-javascript" data-start-line="1" data-visibility="visible" data-highlight="" data-caption="">
 // An awaitable task
 public Task YouCanAwaitMe() { }
 
@@ -23,7 +23,7 @@ public async Task IWillAwait()
 {
    await YouCanAwaitMe().WithoutChangingContext();
 }
-```
+</pre>
 
 ## TPL: The Reality
 
@@ -39,7 +39,7 @@ Unfortunately, a Xamarin app doesn't have any valid roots.  For instance, ***not
 
 Any location that fails to provide a Task signature is a *false root*. This causes unsafe results:
 
-``` C#
+<pre class="prettyprint lang-javascript" data-start-line="1" data-visibility="visible" data-highlight="" data-caption="">
 public class FalselyRootedView : ContentView
 {
    protected override async void OnBindingContextChanged()
@@ -68,7 +68,7 @@ public class FalseConsumer : FalselyRootedView
       await SomeOtherTask().WithoutChangingContext();
    }
 }
-```
+</pre>
 
 Until Microsoft converts all current code signatures to Tasks, programmers are stuck using these sorts of risky mechanisms.
 
@@ -94,13 +94,13 @@ This is a digested Debug output from the ResponsiveAppDemo when I originally cre
 
 So how do we achieve atomic completeness for each Task with no overlaps?  How about this:
 
-``` C#
+<pre class="prettyprint lang-javascript" data-start-line="1" data-visibility="visible" data-highlight="" data-caption="">
 public async void IncorrectlyRaiseATaskWithABlockingCall()
 {
    await SomeTask.Wait().WithoutChangingContext();
 }
 
-```
+</pre>
 
 Ironically, this solves concurrency issues because it only proceeds ***after*** completing a task.  But that comes at an enormous cost: ***100% of the UI thread***. The user immediately senses their keyboard has died. **Wait** is a rusty razor blade in the bottom of your tool-belt.
 
