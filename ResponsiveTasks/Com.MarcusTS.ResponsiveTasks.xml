@@ -80,5 +80,20 @@
                Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
             </remarks>
         </member>
+        <member name="T:Com.MarcusTS.ResponsiveTasks.TaskHelper">
+            <summary>
+            Class TaskHelper.
+            </summary>
+        </member>
+        <member name="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostConstruction(System.Func{Com.MarcusTS.ResponsiveTasks.IProvidePostConstructionTasks},System.Int32)">
+            <summary>
+            Redundant code; difficult to eliminate.  See <see cref="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostBinding(Com.MarcusTS.ResponsiveTasks.ICanSetBindingContextSafely,System.Object,System.Int32)"/>.
+            </summary>
+        </member>
+        <member name="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostBinding(Com.MarcusTS.ResponsiveTasks.ICanSetBindingContextSafely,System.Object,System.Int32)">
+            <summary>
+            Redundant code; difficult to eliminate.  See <see cref="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostConstruction(System.Func{Com.MarcusTS.ResponsiveTasks.IProvidePostConstructionTasks},System.Int32)"/>.
+            </summary>
+        </member>
     </members>
 </doc>

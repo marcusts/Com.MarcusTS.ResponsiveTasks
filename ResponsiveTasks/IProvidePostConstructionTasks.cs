@@ -1,7 +1,7 @@
 ﻿// *********************************************************************************
 // Copyright @2021 Marcus Technical Services, Inc.
 // <copyright
-// file=ICanSetContentSafely.cs
+// file=IProvidePostConstructionTasks.cs
 // company="Marcus Technical Services, Inc.">
 // </copyright>
 // 
@@ -28,19 +28,18 @@
 
 namespace Com.MarcusTS.ResponsiveTasks
 {
+   using System;
    using System.Threading.Tasks;
-   using Xamarin.Forms;
+   using SharedUtils.Utils;
 
-   public interface ICanSetContentSafely : IProvidePostContentTasks
+   public interface IProvidePostConstructionTasks
    {
-      View Content { get; }
+      IResponsiveTasks PostConstructionTasks           { get; set; }
+      int              PostConstructionTasksParamCount { get; set; }
 
-      bool RunContentTasksAfterAssignment { get; set; }
-
-      bool SetContentBindingContextAfterAssignment { get; set; }
-
-      Task<View> GetDefaultContent();
-
-      Task SetContentSafely(View view);
+      Task RunPostConstructionTasks(params object[] taskParams);
+      IThreadSafeAccessor IsPostConstructionCompleted { get; set; }
+      
+      Action<IProvidePostConstructionTasks> PreConstructionAction { get; set; }
    }
 }
