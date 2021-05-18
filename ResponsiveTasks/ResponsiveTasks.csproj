@@ -8,17 +8,18 @@
     <Product>Responsive Tasks Library</Product>
     <Copyright>Copyright @2021 Marcus Technical Services, Inc.</Copyright>
     <Description>TPL compatible replacement for events and global messages</Description>
-    <PackageTags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks</PackageTags>
+    <PackageTags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks tpl tpl-fixes await-async await-async fixes</PackageTags>
     <RootNamespace>Com.MarcusTS.ResponsiveTasks</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.6</Version>
-    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <Version>1.0.8</Version>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>false</Optimize>
     <DocumentationFile>m:\MyDocs\Dev\MtsShared\ResponsiveTasks\ResponsiveTasks\Com.MarcusTS.ResponsiveTasks.xml</DocumentationFile>
     <NoWarn>1701;1702;CS1591;l1591</NoWarn>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

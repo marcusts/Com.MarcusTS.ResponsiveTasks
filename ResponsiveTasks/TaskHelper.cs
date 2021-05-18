@@ -40,7 +40,7 @@ namespace Com.MarcusTS.ResponsiveTasks
       /// </summary>
       public static async Task AwaitClassPostConstruction(Func<IProvidePostConstructionTasks> newClassCreator, int maxDelay)
       {
-         ErrorUtils.ConsiderArgumentError(newClassCreator != default, "New class creator required" );
+         ErrorUtils.IssueArgumentErrorIfTrue(newClassCreator.IsNullOrDefault(), "New class creator required" );
          
          var cancellationTokenSource = CreateCancellationTokenSource(maxDelay);
          // ReSharper disable once PossibleNullReferenceException
@@ -48,7 +48,7 @@ namespace Com.MarcusTS.ResponsiveTasks
 
          while (!cancellationTokenSource.Token.IsCancellationRequested && !newClass.IsPostConstructionCompleted.IsTrue())
          {
-            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token);
+            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
          }
       }
 
@@ -57,17 +57,17 @@ namespace Com.MarcusTS.ResponsiveTasks
       /// </summary>
       public static async Task AwaitClassPostBinding(ICanSetBindingContextSafely newClass, object context, int maxDelay)
       {
-         ErrorUtils.ConsiderArgumentError(newClass != default, "New class creator required");
+         ErrorUtils.IssueArgumentErrorIfTrue(newClass.IsNullOrDefault(), "New class creator required");
          
          var cancellationTokenSource = CreateCancellationTokenSource(maxDelay);
 
          // ReSharper disable once PossibleNullReferenceException
-         await newClass.SetBindingContextSafely(context);
+         await newClass.SetBindingContextSafely(context).WithoutChangingContext();
 
          while (!cancellationTokenSource.Token.IsCancellationRequested && !newClass.IsPostBindingCompleted.IsTrue())
          {
             // Standard delay
-            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token);
+            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
          }
       }
       

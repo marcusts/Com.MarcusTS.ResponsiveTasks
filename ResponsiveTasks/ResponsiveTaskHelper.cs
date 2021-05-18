@@ -60,7 +60,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          var cancellationTokenSource = CreateCancellationTokenSource(maxDelay);
 
          // ReSharper disable once PossibleNullReferenceException
-         await view.SetBindingContextSafely(context);
+         await view.SetBindingContextSafely(context).WithoutChangingContext();
 
 #if !DEFEAT_TASK_WATER
          while
@@ -78,7 +78,7 @@ namespace Com.MarcusTS.ResponsiveTasks
             )
          )
          {
-            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token);
+            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
          }
 #endif
       }
@@ -97,7 +97,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          // ReSharper disable once PossibleNullReferenceException
          while (!cancellationTokenSource.Token.IsCancellationRequested && newClass.IsPostBindingCompleted.IsFalse())
          {
-            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token);
+            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
          }
 #endif
       }
@@ -116,13 +116,13 @@ namespace Com.MarcusTS.ResponsiveTasks
          var cancellationTokenSource = CreateCancellationTokenSource(maxDelay);
 
          // ReSharper disable once PossibleNullReferenceException
-         await contentView.SetContentSafely(content);
+         await contentView.SetContentSafely(content).WithoutChangingContext();
 
 #if !DEFEAT_TASK_WATER
          // ReSharper disable once PossibleNullReferenceException
          while (!cancellationTokenSource.Token.IsCancellationRequested && contentView.IsPostContentCompleted.IsFalse())
          {
-            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token);
+            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
          }
 #endif
       }

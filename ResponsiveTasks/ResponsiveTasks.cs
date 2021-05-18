@@ -390,7 +390,7 @@ namespace Com.MarcusTS.ResponsiveTasks
             }
             else
             {
-               await taskToAwait;
+               await taskToAwait.WithoutChangingContext();
             }
 
             if (timedOut)
@@ -488,7 +488,7 @@ namespace Com.MarcusTS.ResponsiveTasks
                   }
                   else
                   {
-                     await taskToAwait;
+                     await taskToAwait.WithoutChangingContext();
                   }
                }
                catch (Exception ex)
