@@ -1,5 +1,6 @@
 ﻿
-// #define DEFEAT_TASK_WATER
+// #define DEFEAT_TASK_WAITER
+// #define DEFEAT_CANCEL_TOKEN
 
 // *********************************************************************************
 // Copyright @2021 Marcus Technical Services, Inc.
@@ -45,7 +46,7 @@ namespace Com.MarcusTS.ResponsiveTasks
       
       private const int DEFAULT_MAX_DELAY = 10000;
       
-#if !DEFEAT_TASK_WATER
+#if !DEFEAT_TASK_WAITER
       private const int MILLISECONDS_BETWEEN_DELAYS = 25;
 #endif
 
@@ -57,33 +58,48 @@ namespace Com.MarcusTS.ResponsiveTasks
             nameof(view) + " must be a bindable object");
          ErrorUtils.IssueArgumentErrorIfFalse(context.IsNotNullOrDefault(), nameof(context) + " required");
 
+#if !DEFEAT_CANCEL_TOKEN         
          var cancellationTokenSource = CreateCancellationTokenSource(maxDelay);
+#endif         
 
          // ReSharper disable once PossibleNullReferenceException
          await view.SetBindingContextSafely(context).WithoutChangingContext();
 
-#if !DEFEAT_TASK_WATER
+#if !DEFEAT_TASK_WAITER
          while
          (
+               
+#if !DEFEAT_CANCEL_TOKEN
             !cancellationTokenSource.Token.IsCancellationRequested
             &&
             (
+#endif
                view.IsPostBindingCompleted.IsFalse()
                ||
-               view.RunSubBindingContextTasksAfterAssignment
-               &&
-               context is IProvidePostBindingTasks contextAsPostBindingTasksProvider
-               &&
-               contextAsPostBindingTasksProvider.IsPostBindingCompleted.IsFalse()
+               (
+                  view.RunSubBindingContextTasksAfterAssignment
+                  &&
+                  context is IProvidePostBindingTasks contextAsPostBindingTasksProvider
+                  &&
+                  contextAsPostBindingTasksProvider.IsPostBindingCompleted.IsFalse()
+               )
             )
+#if !DEFEAT_CANCEL_TOKEN
          )
+#endif
          {
+
+#if DEFEAT_CANCEL_TOKEN
+            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS).WithoutChangingContext();
+#else
             await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
+#endif
+
          }
 #endif
       }
 
-      public static async Task AwaitClassPostBinding(IProvidePostBindingTasks newClass,
+         public static async Task AwaitClassPostBinding(IProvidePostBindingTasks newClass,
          int                                                                  maxDelay = DEFAULT_MAX_DELAY)
       {
          ErrorUtils.IssueArgumentErrorIfFalse(newClass != default, "New class required");
@@ -93,7 +109,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          // ReSharper disable once PossibleNullReferenceException
          await newClass.RunPostBindingTasks(newClass).WithoutChangingContext();
 
-#if !DEFEAT_TASK_WATER
+#if !DEFEAT_TASK_WAITER
          // ReSharper disable once PossibleNullReferenceException
          while (!cancellationTokenSource.Token.IsCancellationRequested && newClass.IsPostBindingCompleted.IsFalse())
          {
@@ -118,7 +134,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          // ReSharper disable once PossibleNullReferenceException
          await contentView.SetContentSafely(content).WithoutChangingContext();
 
-#if !DEFEAT_TASK_WATER
+#if !DEFEAT_TASK_WAITER
          // ReSharper disable once PossibleNullReferenceException
          while (!cancellationTokenSource.Token.IsCancellationRequested && contentView.IsPostContentCompleted.IsFalse())
          {
