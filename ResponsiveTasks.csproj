@@ -11,8 +11,8 @@
     <PackageTags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks tpl tpl-fixes await-async await-async fixes</PackageTags>
     <RootNamespace>Com.MarcusTS.ResponsiveTasks</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.9</Version>
-    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <Version>1.0.10</Version>
+    <AssemblyVersion>1.0.10.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -22,11 +22,16 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
-    <PackageReference Include="Com.MarcusTS.SharedForms" Version="1.0.40" />
+    <PackageReference Include="Com.MarcusTS.SharedForms" Version="1.0.41" />
+    <PackageReference Include="Com.MarcusTS.SharedUtils" Version="1.0.26" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1534" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />
   </ItemGroup>
 
 </Project>

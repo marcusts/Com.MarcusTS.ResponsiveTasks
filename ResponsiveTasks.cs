@@ -38,6 +38,11 @@ namespace Com.MarcusTS.ResponsiveTasks
    using SharedForms.Common.Utils;
    using SharedUtils.Utils;
 
+   /// <summary>
+   /// NOTE: Nullable parameters are stored without their nullable status.
+   /// This appears to be a limitation of boxing using objects.
+   /// </summary>
+   
    public enum HowToRun
    {
       AwaitAllConsecutively_IgnoreFailures,

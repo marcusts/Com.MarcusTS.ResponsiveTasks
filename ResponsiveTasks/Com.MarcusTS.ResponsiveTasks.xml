@@ -70,6 +70,12 @@
                Class TaskHelper.
             </summary>
         </member>
+        <member name="T:Com.MarcusTS.ResponsiveTasks.HowToRun">
+            <summary>
+            NOTE: Nullable parameters are stored without their nullable status.
+            This appears to be a limitation of boxing using objects.
+            </summary>
+        </member>
         <member name="P:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.TimeoutMilliseconds">
             <remarks>
             Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.

@@ -102,7 +102,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          public static async Task AwaitClassPostBinding(IProvidePostBindingTasks newClass,
          int                                                                  maxDelay = DEFAULT_MAX_DELAY)
       {
-         ErrorUtils.IssueArgumentErrorIfFalse(newClass != default, "New class required");
+         ErrorUtils.IssueArgumentErrorIfFalse(newClass.IsNotNullOrDefault(), "New class required");
 
          var cancellationTokenSource = CreateCancellationTokenSource(maxDelay);
 
