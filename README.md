@@ -2,8 +2,7 @@
 # Fixing TPL Using Responsive Tasks:
 
 >**IMPORTANT**
->* See the complete [Modern App Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks) which is referenced below.
->* This library is also available on [NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks).
+>* See the complete [Modern App Demo](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo) which is referenced below.
 
 
 ## TPL: The Promise
@@ -74,7 +73,7 @@ Until Microsoft converts all current code signatures to Tasks, programmers are s
 
 ## The Proof is in the Output
 
-This is a digested Debug output from the ResponsiveAppDemo when I originally created it. The demo called Tasks from all of the forbidden areas, including constructors. It was otherwise well-behaved -- at least according to Microsoft's guidance.  So it resembles code that anyone would produce who has done the reading:
+This is a digested Debug output from the demo when I originally created it. The demo called Tasks from all of the forbidden areas, including constructors. It was otherwise well-behaved -- at least according to Microsoft's guidance.  So it resembles code that anyone would produce who has done the reading:
 
 | Location                      | Task Type                | First/Last |
 | :---                          | :---                     | :---       |
