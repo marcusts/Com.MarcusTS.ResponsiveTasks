@@ -2,7 +2,7 @@
 # Fixing TPL Using Responsive Tasks:
 
 >**IMPORTANT**
->* See the complete [Responsive Tasks Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo) which is referenced below.
+>* See the complete [Modern App Demo](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo) which is referenced below.
 >* This library is also available on [NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks).
 
 
@@ -108,7 +108,7 @@ Ironically, this solves concurrency issues because it only proceeds ***after*** 
 
 The Responsive Tasks library handles all of the dilemmas mentioned here using a thread-safe "wait" strategy, plus base classes that support Tasks everywhere.  You can easily copy the code samples into your own base views or view models, so this approach is not dogmatic.
 
-Here is the output in the ***final*** ResponsiveTasksDemo. Everything is orderly now.  Every process is stateful and predictable:
+Here is the output in the ***final*** demo. Everything is orderly now.  Every process is stateful and predictable:
 
 | Location                      | Task Type                | First/Last |
 | :---                          | :---                     | :---       |
@@ -128,7 +128,7 @@ Here is the output in the ***final*** ResponsiveTasksDemo. Everything is orderly
 
 Each page describes a problem and its Responsive solution:
 
-## [Part 1 of N: Pages, Views & View Models](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_1.md)
-## [Part 2 of N: Events & Messaging](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_2.md)
-## [Part 3 of N: Technical Guide](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_3.md)
-## [Part 4 of N: Button Pressed: Closing the Final TPL Gaps](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasksDemo/blob/main/ResponsiveTasksDemo_4.md)
+## [Part 1 of N: Pages, Views & View Models](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_1.md)
+## [Part 2 of N: Events & Messaging](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_2.md)
+## [Part 3 of N: Technical Guide](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_3.md)
+## [Part 4 of N: Button Pressed: Closing the Final TPL Gaps](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_4.md)
