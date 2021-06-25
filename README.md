@@ -2,7 +2,7 @@
 # Fixing TPL Using Responsive Tasks:
 
 >**IMPORTANT**
->* See the complete [Modern App Demo](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo) which is referenced below.
+>* See the complete [Modern App Demo](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks) which is referenced below.
 >* This library is also available on [NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks).
 
 
@@ -128,7 +128,7 @@ Here is the output in the ***final*** demo. Everything is orderly now.  Every pr
 
 Each page describes a problem and its Responsive solution:
 
-## [Part 1 of N: Pages, Views & View Models](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_1.md)
-## [Part 2 of N: Events & Messaging](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_2.md)
-## [Part 3 of N: Technical Guide](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_3.md)
-## [Part 4 of N: Button Pressed: Closing the Final TPL Gaps](https://github.com/marcusts/Com.MarcusTS.ModernAppDemo/blob/main/ModernAppDemo_4.md)
+## [Part 1 of N: Pages, Views & View Models](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks/blob/main/ResponsiveTasks_1.md)
+## [Part 2 of N: Events & Messaging](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks/blob/main/ResponsiveTasks_2.md)
+## [Part 3 of N: Technical Guide](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks/blob/main/ResponsiveTasks_3.md)
+## [Part 4 of N: Button Pressed: Closing the Final TPL Gaps](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks/blob/main/ResponsiveTasks_4.md)
