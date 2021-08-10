@@ -72,34 +72,19 @@
         </member>
         <member name="T:Com.MarcusTS.ResponsiveTasks.HowToRun">
             <summary>
-            NOTE: Nullable parameters are stored without their nullable status.
-            This appears to be a limitation of boxing using objects.
+               NOTE: Nullable parameters are stored without their nullable status.
+               This appears to be a limitation of boxing certain objects.
             </summary>
         </member>
         <member name="P:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.TimeoutMilliseconds">
             <remarks>
-            Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
+               Does not work with <see cref="M:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.RunAllTasksInParallelFromVoid(System.Object[])"/>, as we cannot predict or control when those tasks are completed.
             </remarks>
         </member>
         <member name="P:Com.MarcusTS.ResponsiveTasks.ResponsiveTasks.TimeoutMilliseconds">
             <remarks>
                Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
             </remarks>
-        </member>
-        <member name="T:Com.MarcusTS.ResponsiveTasks.TaskHelper">
-            <summary>
-            Class TaskHelper.
-            </summary>
-        </member>
-        <member name="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostConstruction(System.Func{Com.MarcusTS.ResponsiveTasks.IProvidePostConstructionTasks},System.Int32)">
-            <summary>
-            Redundant code; difficult to eliminate.  See <see cref="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostBinding(Com.MarcusTS.ResponsiveTasks.ICanSetBindingContextSafely,System.Object,System.Int32)"/>.
-            </summary>
-        </member>
-        <member name="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostBinding(Com.MarcusTS.ResponsiveTasks.ICanSetBindingContextSafely,System.Object,System.Int32)">
-            <summary>
-            Redundant code; difficult to eliminate.  See <see cref="M:Com.MarcusTS.ResponsiveTasks.TaskHelper.AwaitClassPostConstruction(System.Func{Com.MarcusTS.ResponsiveTasks.IProvidePostConstructionTasks},System.Int32)"/>.
-            </summary>
         </member>
     </members>
 </doc>

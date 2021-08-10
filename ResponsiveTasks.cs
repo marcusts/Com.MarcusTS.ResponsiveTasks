@@ -4,19 +4,19 @@
 // file=ResponsiveTasks.cs
 // company="Marcus Technical Services, Inc.">
 // </copyright>
-// 
+//
 // MIT License
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,14 +35,13 @@ namespace Com.MarcusTS.ResponsiveTasks
    using System.Linq;
    using System.Runtime.CompilerServices;
    using System.Threading.Tasks;
-   using SharedForms.Common.Utils;
-   using SharedUtils.Utils;
+   using Com.MarcusTS.SharedUtils.Interfaces;
+   using Com.MarcusTS.SharedUtils.Utils;
 
    /// <summary>
-   /// NOTE: Nullable parameters are stored without their nullable status.
-   /// This appears to be a limitation of boxing using objects.
+   ///    NOTE: Nullable parameters are stored without their nullable status.
+   ///    This appears to be a limitation of boxing certain objects.
    /// </summary>
-   
    public enum HowToRun
    {
       AwaitAllConsecutively_IgnoreFailures,
@@ -61,19 +60,16 @@ namespace Com.MarcusTS.ResponsiveTasks
       Custom
    }
 
+   public delegate Task<bool> ResponsiveTasksBoolDelegate(params object[] paramValues);
+
    public interface ICustomResponsiveParameterErrorHandler
    {
       Task HandleErrorMessage(string mess);
    }
 
-   public interface IHaveResponsiveTasksDict
-   {
-      IResponsiveTasksDict TasksDict { get; set; }
-   }
-
    public interface IHostTask
    {
-      object                          Host      { get; set; }
+      object Host { get; set; }
       ResponsiveTaskBroadcastDelegate TaskToRun { get; set; }
    }
 
@@ -87,7 +83,7 @@ namespace Com.MarcusTS.ResponsiveTasks
       T GetTypeSafeValue<T>(object paramKey);
    }
 
-   public interface IResponsiveTasks : IIssueResponsiveErrors
+   public interface IResponsiveTasks : IIssueResponsiveErrors, ICanRun
    {
       ICustomResponsiveParameterErrorHandler CustomErrorHandler { get; set; }
 
@@ -100,42 +96,36 @@ namespace Com.MarcusTS.ResponsiveTasks
       IIssueResponsiveErrors TaskErrorBroadcaster { get; set; }
 
       /// <remarks>
-      /// Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
+      ///    Does not work with <see cref="RunAllTasksInParallelFromVoid"/>, as we cannot predict or control when those tasks are completed.
       /// </remarks>
       int TimeoutMilliseconds { get; set; }
 
       void AddIfNotAlreadyThere(object host, ResponsiveTaskBroadcastDelegate task);
 
-      Task<bool> AwaitAllTasksConsecutivelyIgnoreFailures(params object[] paramValues);
+      Task<bool> AwaitAllTasksCollectively(params object[] paramValues);
 
-      Task<bool> AwaitAllTasksConsecutivelyStopOnFirstFailure(params object[] paramValues);
-
-      Task<bool> RunAllTasksUsingDefaults(params object[] paramValues);
+      Task<bool> AwaitAllTasksConsecutively(object[] paramValues, bool stopOnFirstFailure = false);
 
       void RemoveIfThere(object host, ResponsiveTaskBroadcastDelegate task);
 
-      void RunAllTasksInParallel(params object[] paramValues);
+      void RunAllTasksInParallelFromVoid(params object[] paramValues);
+
+      Task<bool> RunAllTasksUsingDefaults(params object[] paramValues);
 
       void UnsubscribeHost<T>(T host);
    }
 
-   public interface IResponsiveTasksDict : IDictionary<object, IResponsiveTasks>
-   {
-   }
-
    public delegate Task ResponsiveTaskBroadcastDelegate(IResponsiveTaskParams paramDict);
-
-   public delegate Task ResponsiveTaskDelegate(IResponsiveTasks taskHost);
 
    public class HostTask : IHostTask
    {
       public HostTask(object host, ResponsiveTaskBroadcastDelegate task)
       {
-         Host      = host;
+         Host = host;
          TaskToRun = task;
       }
 
-      public object                          Host      { get; set; }
+      public object Host { get; set; }
       public ResponsiveTaskBroadcastDelegate TaskToRun { get; set; }
    }
 
@@ -154,9 +144,9 @@ namespace Com.MarcusTS.ResponsiveTasks
          {
             var obj = this[paramKey];
 
-            if (obj.GetType() == typeof(T))
+            if (obj is T t)
             {
-               return (T) obj;
+               return t;
             }
          }
 
@@ -176,12 +166,12 @@ namespace Com.MarcusTS.ResponsiveTasks
    {
       public const ParamsErrorLevels DEFAULT_PARAMS_ERROR_LEVEL = ParamsErrorLevels.DebugWriteLine;
 
-      private volatile IThreadSafeAccessor _isRunning = new ThreadSafeAccessor();
+      public IThreadSafeAccessor IsRunning { get; private set; } = new ThreadSafeAccessor();
 
       public ResponsiveTasks()
       {
          TaskErrorBroadcaster = this;
-         Params               = new ResponsiveTaskParams(this);
+         Params = new ResponsiveTaskParams(this);
       }
 
       public ResponsiveTasks(params object[] paramKeys)
@@ -193,8 +183,8 @@ namespace Com.MarcusTS.ResponsiveTasks
          {
             return;
          }
-         
-         // ELSE  
+
+         // ELSE
          foreach (var key in paramKeys)
          {
             Params.AddOrUpdate(key, default);
@@ -210,7 +200,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          {
             return;
          }
-         
+
          // ELSE
          for (var idx = 0; idx < paramCount; idx++)
          {
@@ -218,11 +208,11 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
       }
 
-      public ICustomResponsiveParameterErrorHandler CustomErrorHandler   { get; set; }
-      public ResponsiveTaskParams                   Params               { get; set; }
-      public ParamsErrorLevels                      ParamsErrorLevel     { get; set; } = DEFAULT_PARAMS_ERROR_LEVEL;
-      public HowToRun                               RunHow               { get; set; }
-      public IIssueResponsiveErrors                 TaskErrorBroadcaster { get; set; }
+      public ICustomResponsiveParameterErrorHandler CustomErrorHandler { get; set; }
+      public ResponsiveTaskParams Params { get; set; }
+      public ParamsErrorLevels ParamsErrorLevel { get; set; } = DEFAULT_PARAMS_ERROR_LEVEL;
+      public HowToRun RunHow { get; set; }
+      public IIssueResponsiveErrors TaskErrorBroadcaster { get; set; }
 
       /// <remarks>
       ///    Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
@@ -238,55 +228,76 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
       }
 
-      public Task<bool> AwaitAllTasksConsecutivelyIgnoreFailures(params object[] paramValues)
+      public async Task<bool> AwaitAllTasksConsecutively(object[] paramValues, bool stopOnFirstFailure = false)
       {
-         AssignParamValues(paramValues);
-         return AwaitAllTasksConsecutively();
-      }
-
-      public Task<bool> AwaitAllTasksConsecutivelyStopOnFirstFailure(params object[] paramValues)
-      {
-         AssignParamValues(paramValues);
-         return AwaitAllTasksConsecutively(true);
-      }
-
-      public async Task<bool> RunAllTasksUsingDefaults(params object[] paramValues)
-      {
-         AssignParamValues(paramValues);
-
          if (IsAlreadyRunningOrEmpty())
          {
             return true;
          }
 
-         // ELSE
-         var result = true;
+         IsRunning.SetTrue();
+         AssignParamValues(paramValues);
+         var timedOut = new ThreadSafeAccessor(0);
 
-         switch (RunHow)
+         var useTimeout = TimeoutMilliseconds > 0;
+         var remainingMilliseconds = TimeoutMilliseconds;
+
+         var stopWatch = new Stopwatch();
+         stopWatch.Start();
+
+         try
          {
-            case HowToRun.AwaitAllConsecutively_IgnoreFailures:
-               await AwaitAllTasksConsecutively().WithoutChangingContext();
-               break;
+            foreach (var task in this)
+            {
+               try
+               {
+                  if (useTimeout)
+                  {
+                     await Task.WhenAny(TimeOutTask(remainingMilliseconds),
+                        task.TaskToRun.Invoke(Params)).WithoutChangingContext();
 
-            case HowToRun.AwaitAllConsecutively_StopOnFirstFailure:
-               await AwaitAllTasksConsecutively(true).WithoutChangingContext();
-               break;
+                     // ELSE decrement the remaining milliseconds
+                     remainingMilliseconds -= (int) stopWatch.ElapsedMilliseconds;
 
-            case HowToRun.AwaitAllCollectively:
-               await AwaitAllTasksCollectively().WithoutChangingContext();
-               break;
+                     if (timedOut.IsTrue() || (remainingMilliseconds <= 0))
+                     {
+                        HandleTimeoutError();
+                        return false;
+                     }
+                  }
+                  else
+                  {
+                     await task.TaskToRun.Invoke(Params).WithoutChangingContext();
+                  }
+               }
+               catch (Exception ex)
+               {
+                  HandleTaskError(ex);
 
-            case HowToRun.RunAllInParallel:
-               RunAllTasksInParallel();
-               break;
-
-            default:
-               result = false;
-               break;
+                  if (stopOnFirstFailure)
+                  {
+                     return false;
+                  }
+               }
+            }
+         }
+         finally
+         {
+            IsRunning.SetFalse();
+            stopWatch.Stop();
          }
 
-         // ELSE FAIL
-         return result;
+         // ELSE
+         return true;
+
+         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         // P R I V A T E   M E T H O D S
+         async Task TimeOutTask(int milliseconds)
+         {
+            await Task.Delay(milliseconds).WithoutChangingContext();
+            timedOut.SetTrue();
+         }
+         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       }
 
       public void IssueResponsiveError(string errorStr)
@@ -324,14 +335,15 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
       }
 
-      public void RunAllTasksInParallel(params object[] paramValues)
+      public void RunAllTasksInParallelFromVoid(params object[] paramValues)
       {
-         AssignParamValues(paramValues);
-
          if (IsAlreadyRunningOrEmpty())
          {
             return;
          }
+
+         IsRunning.SetTrue();
+         AssignParamValues(paramValues);
 
          try
          {
@@ -346,8 +358,39 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
          finally
          {
-            _isRunning.SetFalse();
+            IsRunning.SetFalse();
          }
+      }
+
+      public async Task<bool> RunAllTasksUsingDefaults(params object[] paramValues)
+      {
+         var result = new ThreadSafeAccessor(0);
+
+         switch (RunHow)
+         {
+            case HowToRun.AwaitAllConsecutively_IgnoreFailures:
+               await AwaitAllTasksConsecutively(paramValues).WithoutChangingContext();
+               break;
+
+            case HowToRun.AwaitAllConsecutively_StopOnFirstFailure:
+               await AwaitAllTasksConsecutively(paramValues, true).WithoutChangingContext();
+               break;
+
+            case HowToRun.AwaitAllCollectively:
+               await AwaitAllTasksCollectively(paramValues).WithoutChangingContext();
+               break;
+
+            case HowToRun.RunAllInParallel:
+               RunAllTasksInParallelFromVoid(paramValues);
+               break;
+
+            default:
+               result.SetFalse();
+               break;
+         }
+
+         // ELSE FAIL
+         return result.IsTrue();
       }
 
       public void UnsubscribeHost<T>(T host)
@@ -358,7 +401,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
 
          // ELSE
-         
+
          // Look for any hosts to this task that are of the base type
          var subscriptionsToRemove = this.Where(KeyValuePair => KeyValuePair.Host is T).ToArray();
 
@@ -368,14 +411,14 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
 
          // ELSE
-         
+
          foreach (var subscription in subscriptionsToRemove)
          {
             Remove(subscription);
          }
       }
 
-      public async Task<bool> AwaitAllTasksCollectively()
+      public async Task<bool> AwaitAllTasksCollectively(params object[] paramValues)
       {
          if (IsAlreadyRunningOrEmpty())
          {
@@ -383,8 +426,9 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
 
          // ELSE
-         
-         var timedOut = false;
+         IsRunning.SetTrue();
+         AssignParamValues(paramValues);
+         var timedOut = new ThreadSafeAccessor(0);
 
          try
          {
@@ -399,7 +443,7 @@ namespace Com.MarcusTS.ResponsiveTasks
                await taskToAwait.WithoutChangingContext();
             }
 
-            if (timedOut)
+            if (timedOut.IsTrue())
             {
                HandleTimeoutError();
                return false;
@@ -415,7 +459,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
          finally
          {
-            _isRunning.SetFalse();
+            IsRunning.SetFalse();
          }
 
          // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -423,7 +467,7 @@ namespace Com.MarcusTS.ResponsiveTasks
          async Task TimeOutTask(int timeoutMilliseconds)
          {
             await Task.Delay(timeoutMilliseconds).WithoutChangingContext();
-            timedOut = true;
+            timedOut.SetTrue();
          }
          // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       }
@@ -433,7 +477,12 @@ namespace Com.MarcusTS.ResponsiveTasks
          if (Params.Count != paramValues?.Length)
          {
             var errorStr =
-               nameof(ResponsiveTasks) + ": " + nameof(AssignParamValues) + ": received " + paramValues?.Length +
+               nameof(ResponsiveTasks) +
+               this[0].Host + ": " +
+               this[0].TaskToRun + ": " +
+               ": " + nameof(AssignParamValues) +
+               ": received " +
+               paramValues?.Length +
                " parameters for broadcast. Expected " + Params.Count + ".";
             IssueResponsiveError(errorStr);
 
@@ -453,78 +502,6 @@ namespace Com.MarcusTS.ResponsiveTasks
             Params[key] = paramValues[keyIdx];
             keyIdx++;
          }
-      }
-
-      private async Task<bool> AwaitAllTasksConsecutively(bool stopOnFirstFailure = false)
-      {
-         if (IsAlreadyRunningOrEmpty())
-         {
-            return true;
-         }
-
-         var timedOut = false;
-
-         var useTimeout            = TimeoutMilliseconds > 0;
-         var remainingMilliseconds = TimeoutMilliseconds;
-
-         var stopWatch = new Stopwatch();
-         stopWatch.Start();
-
-         try
-         {
-            foreach (var task in this)
-            {
-               try
-               {
-                  var taskToAwait = task.TaskToRun.Invoke(Params);
-
-                  if (useTimeout)
-                  {
-                     await Task.WhenAny(TimeOutTask(remainingMilliseconds),
-                        taskToAwait).WithoutChangingContext();
-
-                     // ELSE decrement the remaining milliseconds
-                     remainingMilliseconds -= (int) stopWatch.ElapsedMilliseconds;
-
-                     if (timedOut || remainingMilliseconds <= 0)
-                     {
-                        HandleTimeoutError();
-                        return false;
-                     }
-                  }
-                  else
-                  {
-                     await taskToAwait.WithoutChangingContext();
-                  }
-               }
-               catch (Exception ex)
-               {
-                  HandleTaskError(ex);
-
-                  if (stopOnFirstFailure)
-                  {
-                     return false;
-                  }
-               }
-            }
-         }
-         finally
-         {
-            _isRunning.SetFalse();
-            stopWatch.Stop();
-         }
-
-         // ELSE
-         return true;
-
-         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         // P R I V A T E   M E T H O D S
-         async Task TimeOutTask(int milliseconds)
-         {
-            await Task.Delay(milliseconds).WithoutChangingContext();
-            timedOut = true;
-         }
-         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       }
 
       private IHostTask GetExistingTask(object host, ResponsiveTaskBroadcastDelegate taskDelegate)
@@ -547,16 +524,12 @@ namespace Com.MarcusTS.ResponsiveTasks
 
       private bool IsAlreadyRunningOrEmpty()
       {
-         if (_isRunning.IsTrue() || !this.Any())
+         if (IsRunning.IsTrue() || this.IsAnEmptyList())
          {
             return true;
          }
 
          return false;
       }
-   }
-
-   public class ResponsiveTasksDict : Dictionary<object, IResponsiveTasks>, IResponsiveTasksDict
-   {
    }
 }
