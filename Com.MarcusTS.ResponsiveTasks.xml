@@ -72,12 +72,12 @@
         </member>
         <member name="P:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.TimeoutMilliseconds">
             <remarks>
-            Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
+            Does not work with RunAllInParallelFromVoid, as we cannot predict or control when those tasks are completed.
             </remarks>
         </member>
         <member name="P:Com.MarcusTS.ResponsiveTasks.ResponsiveTasks.TimeoutMilliseconds">
             <remarks>
-               Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
+               Does not work with RunAllInParallelFromVoid, as we cannot predict or control when those tasks are completed.
             </remarks>
         </member>
         <member name="T:Com.MarcusTS.ResponsiveTasks.TaskHelper">

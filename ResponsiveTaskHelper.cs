@@ -45,9 +45,7 @@ namespace Com.MarcusTS.ResponsiveTasks
    {
       private const int DEFAULT_MAX_DELAY = 10000;
 
-#if !DEFEAT_TASK_WAITER
       private const int MILLISECONDS_BETWEEN_DELAYS = 25;
-#endif
 
       public static async Task SetBindingContextAndAwaitAllBranchingTasks(this ICanSetBindingContextSafely view,
          object context,
@@ -59,23 +57,17 @@ namespace Com.MarcusTS.ResponsiveTasks
          ErrorUtils.IssueArgumentErrorIfFalse(view is BindableObject newClassAsaBindableObject,
             nameof(view) + " must be a bindable object");
          ErrorUtils.IssueArgumentErrorIfFalse(context.IsNotNullOrDefault(), nameof(context) + " required");
-
-#if !DEFEAT_CANCEL_TOKEN
          var cancellationTokenSource = CreateCancellationTokenSource(maxDelay);
-#endif
 
          // ReSharper disable once PossibleNullReferenceException
          // ReSharper disable once PossibleNullReferenceException
          await view.SetBindingContextSafely(context).WithoutChangingContext();
 
-#if !DEFEAT_TASK_WAITER
          while
          (
-#if !DEFEAT_CANCEL_TOKEN
             !cancellationTokenSource.Token.IsCancellationRequested
             &&
             (
-#endif
                view.IsPostBindingCompleted.IsFalse()
                ||
                (
@@ -86,19 +78,11 @@ namespace Com.MarcusTS.ResponsiveTasks
                   contextAsPostBindingTasksProvider.IsPostBindingCompleted.IsFalse()
                )
             )
-#if !DEFEAT_CANCEL_TOKEN
          )
-#endif
          {
-#if DEFEAT_CANCEL_TOKEN
-            await Task.Delay(MILLISECONDS_BETWEEN_DELAYS).WithoutChangingContext();
-#else
             Debug.WriteLine(nameof(SetContentAndAwaitAllBranchingTasks) + ": Waiting...");
             await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
-#endif
          }
-#endif
-         // Debug.WriteLine(nameof(SetBindingContextAndAwaitAllBranchingTasks) + ": Leaving.");
       }
 
       public static async Task SetContentAndAwaitAllBranchingTasks
@@ -119,16 +103,12 @@ namespace Com.MarcusTS.ResponsiveTasks
          // ReSharper disable once PossibleNullReferenceException
          await contentView.SetContentSafely(newContent).WithoutChangingContext();
 
-#if !DEFEAT_TASK_WAITER
          // ReSharper disable once PossibleNullReferenceException
          while (!cancellationTokenSource.Token.IsCancellationRequested && contentView.IsPostContentCompleted.IsFalse())
          {
             Debug.WriteLine(nameof(SetContentAndAwaitAllBranchingTasks) + ": Waiting...");
             await Task.Delay(MILLISECONDS_BETWEEN_DELAYS, cancellationTokenSource.Token).WithoutChangingContext();
          }
-#endif
-         // ntering
-         // Debug.WriteLine(nameof(SetContentAndAwaitAllBranchingTasks) + ": Leaving.");
       }
 
       public static async Task TryToSetBindingContextAndAwaitAllBranchingTasks(this View content,

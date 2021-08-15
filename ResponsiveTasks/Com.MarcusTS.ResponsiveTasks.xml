@@ -72,19 +72,18 @@
         </member>
         <member name="T:Com.MarcusTS.ResponsiveTasks.HowToRun">
             <summary>
-               NOTE: Nullable parameters are stored without their nullable status.
-               This appears to be a limitation of boxing certain objects.
+               NOTE: Nullable parameters are stored without their nullable status. This appears to be a limitation of boxing
+               certain objects.
             </summary>
         </member>
         <member name="P:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.TimeoutMilliseconds">
             <remarks>
-               Does not work with <see cref="M:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.RunAllTasksInParallelFromVoid(System.Object[])"/>, as we cannot predict or control when those tasks are completed.
+            Does not work with <see cref="M:Com.MarcusTS.ResponsiveTasks.IResponsiveTasks.RunAllTasksInParallelFromVoid(System.Object[])" />, as we cannot predict or control when those
+               tasks are completed.
             </remarks>
         </member>
         <member name="P:Com.MarcusTS.ResponsiveTasks.ResponsiveTasks.TimeoutMilliseconds">
-            <remarks>
-               Does not work with RunAllInParallel, as we cannot predict or control when those tasks are completed.
-            </remarks>
+            <remarks>Does not work with RunAllInParallelFromVoid, as we cannot predict or control when those tasks are completed.</remarks>
         </member>
     </members>
 </doc>
