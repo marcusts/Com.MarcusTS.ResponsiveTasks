@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Com.MarcusTS.ResponsiveTasks</id>
-    <version>1.0.16</version>
+    <version>1.0.17</version>
     <title>Responsive Tasks</title>
     <authors>Stephen Marcus</authors>
     <owners>Marcus Technical Services, Inc.</owners>
@@ -14,5 +14,9 @@
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2021 Marcus Technical Services, Inc. (https://www.marcusts.com)</copyright>
     <tags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks tpl tpl-fixes await-async await-async fixes</tags>
+    <readme>docs\README.md</readme>
   </metadata>
+  <files>
+    <file src="..\README.md" target="docs\" />
+  </files>
 </package>
