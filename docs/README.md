@@ -123,6 +123,9 @@ Here is the output in the ***final*** demo. Everything is orderly now.  Every pr
 | Views.Subviews.DashboardView  &nbsp;|&nbsp; RunPostBindingTasks      &nbsp;|&nbsp; LAST	&nbsp;|&nbsp;
 |------------------------------------&nbsp;|&nbsp;------------------------------&nbsp;|&nbsp;-------&nbsp;|&nbsp;
 
+## Responsive Tasks is tested and proven
+
+See the [unit tests](https://github.com/marcusts/ResponsiveTasks.UnitTests).
 
 ## Index
 
