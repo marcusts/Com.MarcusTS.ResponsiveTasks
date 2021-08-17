@@ -6,27 +6,27 @@ The examples provided here are quite basic.  Let's delve into the full capabilit
 **Remember:** When creating a ResponsiveTask, the parameter count ***must*** be known and ***obeyed*** when raising that task.
 
 This is the *default* ResponsiveTask declaration:
-<pre lang='cs'>
+```csharp
 public IResponsiveTask BasicRespTask { get; set; } = new ResponsiveTask(1);
-</pre>
+```
 It has ***one*** parameter. So when raised:
-<pre lang='cs'>
+```csharp
 public async Task RaiseBasicRespTask(object someParam)
 {
    await BasicRespTask.RunAllTasksUsingDefaults(
       new[] { someParam }).WithoutChangingContext();
 }
-</pre>
+```
 The parameters to the task were never declared, so they were automatically created using integers. On consumption, one ***must*** refer to the parameters exactly like this:
-<pre lang='cs'>
+```csharp
 public async Task HandleBasicRespTask(object[] paramDict)
 {
    //  You don't know or care what type the variable is.
    var retrievedParam = paramDict[0];
 }
-</pre>
+```
 For better type safety, use this approach:
-<pre lang='cs'>
+```csharp
 public async Task HandleBasicRespTask(object[] paramDict)
 {
    // If the parameter is not an object, this raises an error, 
@@ -34,14 +34,14 @@ public async Task HandleBasicRespTask(object[] paramDict)
    //    You will not receive a parameter unless the type matches.
    var retrievedParam = paramDict.GetTypeSafeValue<object>(0);
 }
-</pre>
+```
 Another option is to declare the task with *named* params:
-<pre lang='cs'>
+```csharp
 public IResponsiveTask NamedRespTask { get; set; } = 
    new ResponsiveTask("param1", "param2");
-</pre>
+```
 This doesn't anything much about the broadcast:
-<pre lang='cs'>
+```csharp
 public async Task RaiseBasicRespTask(int someParam1, string someParam2)
 {
    // With params of varying types, the compiler will ask 
@@ -49,9 +49,9 @@ public async Task RaiseBasicRespTask(int someParam1, string someParam2)
    await BasicRespTask.RunAllTasksUsingDefaults(
       new object[] { someParam1, someParam2 }).WithoutChangingContext();
 }
-</pre>
+```
 But on consumption, you ***must*** request the params by name or you will receive an error and no params in return:
-<pre lang='cs'>
+```csharp
 public async Task HandleNamedRespTask(object[] paramDict)
 {
    // Either:
@@ -61,11 +61,11 @@ public async Task HandleNamedRespTask(object[] paramDict)
    var retrievedParam1 = paramDict.GetTypeSafeValue<int>("param1");
    var retrievedParam2 = paramDict.GetTypeSafeValue<string>("param2");
 }
-</pre>
+```
 ---
 ### Raising ResponsiveTasks for Different Effects
 **ResponsiveTasks** are first declared and then *raised*, just like events.  But how they are raised makes a big difference in the result. The default is the safest, and is what occurs when you raise a **Responsive Task** like this:
-<pre lang='cs'>
+```csharp
 // No parameters in this example
 private IResponsiveTasks AnyTask { get; set; } = new ResponsiveTask();
 
@@ -78,9 +78,9 @@ public async Task RaiseATask()
    // This is the same as:
    // await AnyTask.AwaitAllTasksConsecutively(false).WithoutChangingContext();
 }
-</pre>
+```
 But you can easily set the default RunHow property for any task manually:
-<pre lang='cs'>
+```csharp
 // Set RunHow at the constructor
 private IResponsiveTasks AnyTask { get; set; } = 
    new ResponsiveTask { RunHow = HowToRun.AwaitAllCollectively };
@@ -93,7 +93,7 @@ public async Task RaiseATask()
    // This is *now* the same as:
    // await AnyTask.AwaitAllTasksCollectively().WithoutChangingContext();
 }
-</pre>
+```
 Here are the available values for RunHow, and what they accomplish:
 #### *AwaitAllConsecutively_IgnoreFailures *(default)**
 >Awaits each task handler/subscriber and moves on to the next one after completion, even if there is an error, which is ***ignored***.
@@ -112,7 +112,7 @@ Here are the available values for RunHow, and what they accomplish:
 When we use the term *error* here, we mean ***any*** error, including task cancellation, which throws a C# run-time exception. However, **ResponsiveTasks** do not manage how cancellation affects other running tasks.  That is ***your*** responsibility, and it is a big one.
 
 When you assign a handler for a **ResponsiveTask**, it might support cancellation:
-<pre lang='cs'>
+```csharp
 public class MyClass
 {
    public MyClass()
@@ -134,9 +134,9 @@ public class MyClass
       await TaskWithCancellation(tokenSource).WithoutChangingContext();
    }
 }
-</pre>
+```
 Let's say you do this several times, in different places, all listening/handling **SomeResponsiveTask**.  Now the task gets raised with RunHow set to *AwaitAllCollectively*, where errors are not managed at all:
-<pre lang='cs'>
+```csharp
 public class SomeClass
 {
    public IResponsiveTask SomeResponsiveTask { get; set; } = 
@@ -148,7 +148,7 @@ public class SomeClass
       await SomeResponsiveTask.RunAllTasksUsingDefaults().WithoutChangingContext();
    }
 }
-</pre>
+```
 Your handlers start dying.  But you assumed that would all succeed.  So it is your job to see to it that on failure, they all fail as a group. This is a bit daunting, so cannot be covered here.
 
 The best option for now is to run using RunHow.AwaitAllConsecutively_StopOnFirstFailure if errors are indeed a concern.  In this example, that would cause the ResponsiveTask to halt and abandon all tasks.  It does ***not*** cause all tasks to stop.  They ***continue*** running and their results are ***ignored***.  This wastes CPU time, so is not an ideal solution.

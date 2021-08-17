@@ -5,9 +5,9 @@ Theoretically, **ResponsiveTasks** *"fixes"* the irritating, out-of-order chaos 
 #### 1. When the App Starts Up
 **Startup** is still itself a *false root*, though we have taken steps to fix it. We sealed the App and then awaited using **ResponsiveTasks** so that all tasks are safely awaited before proceeding.  But what if a background thread gets launched and returns unexpectedly with:
 
-<pre lang='cs'> 
+```csharp 
 Device.BeginInvokeOnMainThread()
-</pre>
+```
 ?
 
 Our strategy is not bullet-proof.
@@ -17,33 +17,33 @@ We already discussed lack of Task signatures for events and overrides.  But one 
 
 Here's the old-style way of handling button presses:
 
-<pre lang='cs'>
+```csharp
 anyButton.Clicked += async (sender, arg) => await SomeTask();
-</pre>
+```
 
 But this is obviously the same as any **async-void** call. It's illegal because it purports to run using await, but the await does ***not*** actually wait under ***any*** circumstances.  So whatever occurs afterwards will be ***out-of-time*** and ***unreliable***.
 
 This is the new-style MVVM way:
 
-<pre lang='cs'>
+```csharp
 public class AsyncCommand : ICommand
-</pre>
+```
 
 The command purports to make *"everything"* async. Unfortunately, it ***can't***.  Remember: TPL is all about **roots**, so the ***way*** a thing is called is what it is -- ***not*** how it is consumed.
 
-<pre lang='cs'>
+```csharp
 anyButton = new Button(Command = new AnyAsyncCommand(async () => SomeTask()));
-</pre>
+```
 
 This masks the problem by directly associating the command and the button. But this is what happens inside the actual code (*(Thanks Microsoft !!!)*:
 
-<pre lang='cs'>
+```csharp
 // Pseudo code for button up or down
 if (command != null)
 {
    command.Execute();
 }
-</pre>
+```
 
 It is also *async-void*, which is a *false root*.
 
@@ -55,7 +55,7 @@ As soon as the user taps any button, the progress bar should switch on.  The bar
 
 In the ResponsiveTasksDemo, the *"IsBusy"* progress spinner appears whenever the user selects a tab at the bottom of the screen:
 
-<pre lang='cs'>
+```csharp
 public async Task SetSelectionKey(string newState)
 {
    if (SelectionKey.IsDifferentThan(newState))
@@ -63,11 +63,11 @@ public async Task SetSelectionKey(string newState)
       // Turn on the progress spinner
       _spinnerHost.IsBusyShowing = true;
 ...
-</pre>
+```
 
 The spinner gets turned off when all of the awaits have completed through the **ResponsiveTasks** methods:
 
-<pre lang='cs'>
+```csharp
 private async Task ChangeContentView<InterfaceT, ClassT>(object viewModel)
 ...
    await ResponsiveTaskHelper.AwaitClassAndViewModelPostBinding(
@@ -75,7 +75,7 @@ private async Task ChangeContentView<InterfaceT, ClassT>(object viewModel)
 
    _spinnerHost.IsBusyShowing = false;
 }
-</pre>
+```
 
 This is what it looks like from the user's perspective:
 

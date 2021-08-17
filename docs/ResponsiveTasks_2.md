@@ -1,16 +1,16 @@
 ## Part 2 of N: Events & Messaging
 Xamarin Events do not provide Task signatures. Before you write to me and tell me that you have figured out a way around this limitation, such as:
 
-<pre lang='cs'>
+```csharp
 public SomeConstructor()
 {
    BindingContextChanged += async (sender, args) => { await SomeMethod().WithoutChangingContext(); };
 }
-</pre>
+```
 ...  let's face facts: this event is raised as follows:
-<pre lang='cs'>
+```csharp
 BindingContextChanged?.Invoke(this, args);
-</pre>
+```
 ***That is an illegal root!!!***  It is ***not*** awaited.
 
 ## Solution: Responsive Tasks
@@ -20,7 +20,7 @@ The ResponsiveTasks library is a drop-in replacement for Microsoft events.  It i
 #### The Old Way
 
 Event host:
-<pre lang='cs'>
+```csharp
 public class MyBadHost
 {
    private bool _isTrue;
@@ -37,9 +37,9 @@ public class MyBadHost
       }
    }
 }
-</pre>
+```
 Event Consumer:
-<pre lang='cs'>
+```csharp
 public class MyBadConsumer
 {
    public MyBadConsumer(MyBadHost host)
@@ -54,11 +54,11 @@ public class MyBadConsumer
       return Task.CompletedTask;
    }
 }
-</pre>
+```
 #### The New Way -- Responsive Tasks
 
 This is a well-designed Event host that avoids the pitfalls of a property setter:
-<pre lang='cs'>
+```csharp
 public class MyGoodHost
 {
    private bool _isTrue;
@@ -80,9 +80,9 @@ public class MyGoodHost
       await IsTrueChanged.RunTaskUsingDefaults(new object[] { isTrue }).WithoutChangingContext();
    }
 }
-</pre>
+```
 Event Consumer:
-<pre lang='cs'>
+```csharp
 public class MyGoodConsumer
 {
    public MyGoodConsumer(MyGoodHost host)
@@ -104,27 +104,27 @@ public class MyGoodConsumer
       return Task.CompletedTask;
    }
 }
-</pre>
+```
 ### Global Messages
 Prism originated the idea of a **Messaging Center**. These are "tricks" to allow one part of the program to listen to another without any formal connection. 
 #### The Old Way
 Sender:
-<pre lang='cs'>
+```csharp
 MessagingCenter.Send<MainPage, string>(this, "Hi", "John");
-</pre>
+```
 Receiver:
-<pre lang='cs'>
+```csharp
 MessagingCenter.Subscribe<MainPage> (this, "Hi", async (sender) =>
 {
     // Cannot use async legally here; the message is not awaited when broadcast
     await ImproperylCallSomeTask().WithoutChangingContext();
 });
-</pre>
+```
 This is not magic.  The Messaging Center is simply a public static class that manages varied requests.  But it does ***not*** await, so is yet another *false root* that produces unexpected results at run-time.
 
 #### The New Way -- Responsive Tasks
 This can go anywhere, but is often placed inside the main app:
-<pre lang='cs'>
+```csharp
 public sealed class App : Application
 {
    public static IResponsiveTasksDict MessagingCenterUsingResponsiveTasks { get; private set; } = new ResponsiveTasksDict();
@@ -142,9 +142,9 @@ public sealed class App : Application
       await PageChangedTask.AwaitAllTasksUsingDefaults(new[] { page }).WithoutChangingContext();
    }
 }
-</pre>
+```
 The page change task can be consumed easily from anywhere:
-<pre lang='cs'>
+```csharp
 public class MyClass
 {
    public MyClass()
@@ -162,9 +162,9 @@ public class MyClass
       // Do anything; can legally await here.
    }
 }
-</pre>
+```
 But the new messaging center can be used for anything:
-<pre lang='cs'>
+```csharp
 public class BroadcastClass
 {
    public BroadcastClass()
@@ -184,9 +184,9 @@ public class BroadcastClass
       await DoSomethingTask.AwaitAllTasksUsingDefaults(new[] { something }).WithoutChangingContext();
    }
 }
-</pre>
+```
 This can be consumed any time by any other class:
-<pre lang='cs'>
+```csharp
 public class ConsumingClass
 {
    public ConsumingClass()
@@ -204,7 +204,7 @@ public class ConsumingClass
       // Do anything; can legally await here.
    }
 }
-</pre>
+```
 *To free up any ties between classes, you can develop a naming strategy for the keys to the app's MessagingCenterUsingResponsiveTasks.  Then you would not have to use nameof(), so could remain separate from where the responsive task(s) originated.*
 ### Important Guidance for Replacing Events and Messages with Responsive Tasks
 As always with TPL, the strategy is to originate requests from a method with a Task signature. Without this, you are just transferring the false root of a task to another location, and often, hiding it from prying eyes.

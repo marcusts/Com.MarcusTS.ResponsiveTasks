@@ -3,7 +3,7 @@
 ### The Old Way
 
 A Xamarin.Forms ContentPage or ContentView provide their Content and BindingContext through simple properties.  View Models are constructed and assigned as binding contexts, but provide no support whatsoever for the *moment* of being bound.  All of these cases lack Task signatures, so are ***false roots***.
-<pre lang='cs'>
+```csharp
 public ContentView AnyContentView()
 {
    private object _bindingContext;
@@ -69,9 +69,9 @@ public static class Utils
       }
    }
 }
-</pre>
+```
 These are set like so:
-<pre lang='cs'>
+```csharp
 public ContentPage AnyPage
 {
    public AnyPage()
@@ -92,7 +92,7 @@ public ContentPage AnyPage
       //    since it is identical to AnyContentView.
    }
 }
-</pre>
+```
 
 ### The New Way: Responsive Tasks
 
@@ -109,7 +109,7 @@ public ContentPage AnyPage
 
 These are related topics. We carefully manage key properties such as ContentView/Content *(and the PageView.Content)* as well as the BindingContext:
 
-<pre lang='cs'>
+```csharp
       // *** 
       // For discussion only; verbose elements are missing. 
       // See the demo project for the complete code. 
@@ -164,13 +164,13 @@ These are related topics. We carefully manage key properties such as ContentView
       // Similar code for setting Content
       // ***
 
-</pre>
+```
 
 #### Consume these new tasks with other tasks to maintain the TPl chain of control
 
 This linkage tends to run through many layers in the UI.  Eventually it reaches the App level, the *headwaters* of the TPL system, where we finally must utilize a void TPL root:
 
-<pre lang='cs'>
+```csharp
     // Seal the App to prevent derivation oddities with TPL
     public sealed class App : Application
     {
@@ -196,4 +196,4 @@ This linkage tends to run through many layers in the UI.  Eventually it reaches 
       }
     }
 
-</pre>
+```
