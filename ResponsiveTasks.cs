@@ -37,11 +37,10 @@ namespace Com.MarcusTS.ResponsiveTasks
    using System.Threading.Tasks;
    using Com.MarcusTS.SharedUtils.Interfaces;
    using Com.MarcusTS.SharedUtils.Utils;
-   using Xamarin.Essentials;
 
    /// <summary>
-   ///    NOTE: Nullable parameters are stored without their nullable status. This appears to be a limitation of boxing
-   ///    certain objects.
+   /// NOTE: Nullable parameters are stored without their nullable status. This appears to be a limitation of boxing
+   /// certain objects.
    /// </summary>
    public enum HowToRun
    {
@@ -58,8 +57,9 @@ namespace Com.MarcusTS.ResponsiveTasks
    {
       None,
       DebugWriteLine,
-      Dialog,
-      Toast,
+
+      //Dialog,
+      //Toast,
       Throw,
       Custom
    }
@@ -99,7 +99,7 @@ namespace Com.MarcusTS.ResponsiveTasks
 
       /// <remarks>
       /// Does not work with <see cref="RunAllTasksInParallelFromVoid" />, as we cannot predict or control when those
-      ///    tasks are completed.
+      /// tasks are completed.
       /// </remarks>
       int TimeoutMilliseconds { get; set; }
 
@@ -286,6 +286,7 @@ namespace Com.MarcusTS.ResponsiveTasks
             await Task.Delay(timeoutMilliseconds).WithoutChangingContext();
             timedOut.SetTrue();
          }
+
          // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       }
 
@@ -315,10 +316,10 @@ namespace Com.MarcusTS.ResponsiveTasks
                   if (useTimeout)
                   {
                      await Task.WhenAny(TimeOutTask(remainingMilliseconds),
-                                        task.TaskToRun.Invoke(Params)).WithoutChangingContext();
+                     task.TaskToRun.Invoke(Params)).WithoutChangingContext();
 
                      // ELSE decrement the remaining milliseconds
-                     remainingMilliseconds -= (int) stopWatch.ElapsedMilliseconds;
+                     remainingMilliseconds -= (int)stopWatch.ElapsedMilliseconds;
 
                      if (timedOut.IsTrue() || (remainingMilliseconds <= 0))
                      {
@@ -358,6 +359,7 @@ namespace Com.MarcusTS.ResponsiveTasks
             await Task.Delay(milliseconds).WithoutChangingContext();
             timedOut.SetTrue();
          }
+
          // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       }
 
@@ -412,6 +414,7 @@ namespace Com.MarcusTS.ResponsiveTasks
             await Task.Delay(timeoutMilliseconds).WithoutChangingContext();
             timedOut.SetTrue();
          }
+
          // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       }
 
@@ -419,13 +422,13 @@ namespace Com.MarcusTS.ResponsiveTasks
       {
          switch (paramsErrorLevel)
          {
-            case ParamsErrorLevels.Dialog:
-               DialogFactory.ShowErrorToast(errorStr);
-               break;
+            //case ParamsErrorLevels.Dialog:
+            //   DialogFactory.ShowErrorToast(errorStr);
+            //   break;
 
-            case ParamsErrorLevels.Toast:
-               DialogFactory.ShowErrorToast(errorStr, useTimeout: true);
-               break;
+            //case ParamsErrorLevels.Toast:
+            //   DialogFactory.ShowErrorToast(errorStr, useTimeout: true);
+            //   break;
 
             case ParamsErrorLevels.DebugWriteLine:
                Debug.WriteLine(errorStr);
@@ -477,53 +480,6 @@ namespace Com.MarcusTS.ResponsiveTasks
          }
       }
 
-      protected virtual async Task<bool> RunAllTasksUsingDefaults_Internal(HowToRun runHow, params object[] paramValues)
-      {
-         // False by default
-         var result = new ThreadSafeAccessor(0);
-
-         switch (runHow)
-         {
-            case HowToRun.AwaitAllConsecutively_IgnoreFailures:
-               if (await AwaitAllTasksConsecutively(paramValues).WithoutChangingContext())
-               {
-                  result.SetTrue();
-               }
-               break;
-
-            case HowToRun.AwaitAllConsecutively_StopOnFirstFailure:
-               if (await AwaitAllTasksConsecutively(paramValues, true).WithoutChangingContext())
-               {
-                  result.SetTrue();
-               }
-               break;
-
-            case HowToRun.AwaitAllCollectively:
-               if (await AwaitAllTasksCollectively(paramValues).WithoutChangingContext())
-               {
-                  result.SetTrue();
-               }
-               break;
-
-            case HowToRun.AwaitAllSafelyFromVoid:
-               if (AwaitAllTasksSafelyFromVoid(paramValues))
-               {
-                  result.SetTrue();
-               }
-               break;
-
-            case HowToRun.RunAllInParallelFromVoid:
-               RunAllTasksInParallelFromVoid(paramValues);
-
-               // Can't get a result from parallel void
-               result.SetTrue();
-               break;
-         }
-
-         // ELSE FAIL
-         return result.IsTrue();
-      }
-
       public Task<bool> RunAllTasksUsingDefaults(params object[] paramValues)
       {
          return RunAllTasksUsingDefaults_Internal(RunHow, paramValues);
@@ -552,6 +508,57 @@ namespace Com.MarcusTS.ResponsiveTasks
          {
             Remove(subscription);
          }
+      }
+
+      protected virtual async Task<bool> RunAllTasksUsingDefaults_Internal(HowToRun runHow, params object[] paramValues)
+      {
+         // False by default
+         var result = new ThreadSafeAccessor(0);
+
+         switch (runHow)
+         {
+            case HowToRun.AwaitAllConsecutively_IgnoreFailures:
+               if (await AwaitAllTasksConsecutively(paramValues).WithoutChangingContext())
+               {
+                  result.SetTrue();
+               }
+
+               break;
+
+            case HowToRun.AwaitAllConsecutively_StopOnFirstFailure:
+               if (await AwaitAllTasksConsecutively(paramValues, true).WithoutChangingContext())
+               {
+                  result.SetTrue();
+               }
+
+               break;
+
+            case HowToRun.AwaitAllCollectively:
+               if (await AwaitAllTasksCollectively(paramValues).WithoutChangingContext())
+               {
+                  result.SetTrue();
+               }
+
+               break;
+
+            case HowToRun.AwaitAllSafelyFromVoid:
+               if (AwaitAllTasksSafelyFromVoid(paramValues))
+               {
+                  result.SetTrue();
+               }
+
+               break;
+
+            case HowToRun.RunAllInParallelFromVoid:
+               RunAllTasksInParallelFromVoid(paramValues);
+
+               // Can't get a result from parallel void
+               result.SetTrue();
+               break;
+         }
+
+         // ELSE FAIL
+         return result.IsTrue();
       }
 
       private void AssignParamValues(object[] paramValues)
@@ -589,9 +596,10 @@ namespace Com.MarcusTS.ResponsiveTasks
       private IHostTask GetExistingTask(object host, ResponsiveTaskBroadcastDelegate taskDelegate)
       {
          var retTask = this.FirstOrDefault(hostTask => hostTask.Host.IsAnEqualReferenceTo(host)
-                                     &&
+                                                       &&
+
                                                        // Do *not* use IAnEqualReferenceTo
-                                     hostTask.TaskToRun.Equals(taskDelegate));
+                                                       hostTask.TaskToRun.Equals(taskDelegate));
          return retTask;
       }
 
