@@ -1,3 +1,4 @@
+> ## NOW MAUI READY !!!
 
 # Fixing TPL Using Responsive Tasks:
 
@@ -81,39 +82,37 @@ Each page describes a problem and its Responsive solution:
 ## [Part 4 of N: Button Pressed: Closing the Final TPL Gaps](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks/blob/main/docs/ResponsiveTasks_4.md)
 ## [Part 5 of N: Proofs](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks/blob/main/docs/ResponsiveTasks_5.md)
 
-## Responsive Tasks Is Open Source; Enjoy Our Other Offerings
+## ResponsiveTasks Is Open Source; Enjoy Our Entire Public Suite 
 
-If you find value in this software, consider these other related projects:
-
-### *Shared Utils*
+### *Shared Utils (MAUI Ready!)*
 
 [GutHub](https://github.com/marcusts/Com.MarcusTS.SharedUtils)
 
 [NuGet](https://www.nuget.org/packages/Com.MarcusTS.SharedUtils)
 
-### *The Smart DI Container*
+### *The Smart DI Container (MAUI Ready!)*
 
 [GutHub](https://github.com/marcusts/Com.MarcusTS.SmartDI)
 
 [NuGet](https://www.nuget.org/packages/Com.MarcusTS.SmartDI)
 
-### *Shared Forms*
-
-[GutHub](https://github.com/marcusts/Com.MarcusTS.SharedForms)
-
-[NuGet](https://www.nuget.org/packages/Com.MarcusTS.SharedForms)
-
-### *Responsive Tasks*
+### *Responsive Tasks (MAUI Ready!)*
 
 [GutHub](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks)
 
 [NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks)
 
-### *Responsive Tasks - Xamarin.Forms Support*
+### *PlatformIndependentShared (MAUI Ready!)*
 
-[GutHub](https://github.com/marcusts/Com.MarcusTS.ResponsiveTasks.XamFormsSupport)
+[GutHub](https://github.com/marcusts/PlatformIndependentShared)
 
-[NuGet](https://www.nuget.org/packages/Com.MarcusTS.ResponsiveTasks.XamFormsSupport)
+[NuGet](https://www.nuget.org/packages/Com.MarcusTS.PlatformIndependentShared)
+
+### *UI.XamForms*
+
+[GutHub](https://github.com/marcusts/UI.XamForms)
+
+[NuGet](https://www.nuget.org/packages/Com.MarcusTS.UI.XamForms)
 
 ### *The Modern App Demo*
 
@@ -121,4 +120,3 @@ If you find value in this software, consider these other related projects:
 
 &nbsp;
 ![](https://gitlab.com/marcusts1/nugetimages/-/raw/master/Modern_App_Demo_Master_FINAL.gif)
-
