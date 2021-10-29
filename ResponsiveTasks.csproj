@@ -11,14 +11,15 @@
     <PackageTags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks tpl tpl-fixes await-async await-async fixes</PackageTags>
     <RootNamespace>Com.MarcusTS.ResponsiveTasks</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
-    <FileVersion>2.0.1.0</FileVersion>
+    <Version>2.0.3</Version>
+    <AssemblyVersion>2.0.3.0</AssemblyVersion>
+    <FileVersion>2.0.3.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>false</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
     <DocumentationFile>m:\MyDocs\Dev\MtsShared\ResponsiveTasks\ResponsiveTasks\Com.MarcusTS.ResponsiveTasks.xml</DocumentationFile>
     <NoWarn>1701;1702;CS1591;l1591</NoWarn>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -26,6 +27,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
+    <Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Com.MarcusTS.SharedUtils" Version="2.0.1" />
+    <PackageReference Include="Com.MarcusTS.SharedUtils" Version="2.0.2" />
   </ItemGroup>
 
 </Project>
