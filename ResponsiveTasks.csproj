@@ -6,12 +6,12 @@
     <Authors>Stephen Marcus</Authors>
     <Company>Marcus Technical Services, Inc.</Company>
     <Product>Responsive Tasks Library</Product>
-    <Copyright>Copyright @2021 Marcus Technical Services, Inc.</Copyright>
+    <Copyright>Copyright @2022 Marcus Technical Services, Inc.</Copyright>
     <Description>TPL compatible replacement for events and global messages</Description>
     <PackageTags>events, tasks, xamarin-forms xamarin-forms-utilities xamarin-forms-components, responsive-tasks tpl tpl-fixes await-async await-async fixes</PackageTags>
     <RootNamespace>Com.MarcusTS.ResponsiveTasks</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.3</Version>
+    <Version>2.0.5</Version>
     <AssemblyVersion>2.0.3.0</AssemblyVersion>
     <FileVersion>2.0.3.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Com.MarcusTS.SharedUtils" Version="2.0.2" />
+    <PackageReference Include="Com.MarcusTS.SharedUtils" Version="2.0.5" />
   </ItemGroup>
 
 </Project>
